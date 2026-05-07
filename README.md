@@ -258,12 +258,10 @@ GET /users/admin
 
 * Swagger
 * Docker
-* Testes E2E
 * Refresh Token
 * Upload de arquivos
-* Logs de auditoria
 * Cache
-* Rate Limiting
+  
 
 ---
 
