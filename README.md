@@ -32,7 +32,7 @@ O projeto foi criado com foco em arquitetura escalável, autenticação JWT, con
 
 ---
 
-## Authorization (RBAC)
+## Authorization 
 
 * Controle de permissões por role
 * Guard customizado
