@@ -8,20 +8,58 @@ export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
   async createOrder(companyId: string, items: CreateOrderItemDto[]) {
-    return this.prisma.order.create({
-      data: {
-        companyId,
-        status: OrderStatus.PENDING,
-        items: {
-          create: items.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-          })),
+  const products = await this.prisma.product.findMany({
+    where: {
+      id: {
+        in: items.map(i => i.productId),
+      },
+    },
+  });
+
+  let total = 0;
+
+  const orderItems = items.map((item) => {
+    const product = products.find(
+      p => p.id === item.productId,
+    );
+
+    if (!product) {
+      throw new Error('Produto não encontrado');
+    }
+
+    const itemTotal = product.price * item.quantity;
+
+    total += itemTotal;
+
+    return {
+      productId: product.id,
+      quantity: item.quantity,
+      unitPrice: product.price,
+      product: {
+        connect: {
+          id: product.id,
         },
       },
-      include: { items: true },
-    });
-  }
+    };
+  });
+
+  return this.prisma.order.create({
+    data: {
+      companyId,
+      status: 'PENDING',
+
+      total,
+
+      items: {
+        create: orderItems,
+      },
+    },
+
+    include: {
+      items: true,
+    },
+  });
+}
 
   async updateStatus(orderId: string, status: OrderStatus) {
     return this.prisma.order.update({

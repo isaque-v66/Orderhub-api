@@ -4,6 +4,8 @@ Backend profissional desenvolvido com NestJS, Prisma ORM e PostgreSQL.
 
 O projeto foi criado com foco em arquitetura escalável, autenticação JWT, controle de permissões baseado em roles e boas práticas de desenvolvimento backend.
 
+Além disso, o sistema possui integração com APIs externa, incluindo o Stripe, utilizado para processamento de pagamentos via Checkout, com suporte a webhooks para confirmação de transações em tempo real.
+
 ---
 
 # Tecnologias Utilizadas
@@ -16,7 +18,7 @@ O projeto foi criado com foco em arquitetura escalável, autenticação JWT, con
 * Passport
 * Bcrypt
 * Class Validator
-* Docker
+* Stripe(Pagamentos)
 
 ---
 
@@ -46,6 +48,20 @@ O projeto foi criado com foco em arquitetura escalável, autenticação JWT, con
 * Criação de pedidos
 * Atualização de status
 * Relação entre pedidos e produtos
+* Cálculo automático de total no backend
+* Persistência de valor unitário no item (anti-fraude)
+
+---
+
+## Pagamentos (Stripe)
+
+* Integração com Stripe Checkout
+* Criação de sessão de pagamento via API
+* Redirecionamento para página segura do Stripe
+* Webhook para confirmação de pagamento
+* Atualização automática de status do pedido (PENDING → PAID)
+* 
+
 
 ---
 
